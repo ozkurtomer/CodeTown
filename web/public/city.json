@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "buildings": [
+    {
+      "name": "ComplexityAnalyzer",
+      "filePath": "D:\\CorporateProjects\\CodeTown\\src\\CodeTown.Cli\\ComplexityAnalyzer.cs",
+      "lineCount": 25,
+      "methodCount": 1,
+      "maxMethodComplexity": 3
+    },
+    {
+      "name": "Player",
+      "filePath": "D:\\CorporateProjects\\CodeTown\\src\\CodeTown.Cli\\Player.cs",
+      "lineCount": 28,
+      "methodCount": 4,
+      "maxMethodComplexity": 6
+    },
+    {
+      "name": "Program",
+      "filePath": "D:\\CorporateProjects\\CodeTown\\src\\CodeTown.Cli\\Program.cs",
+      "lineCount": 127,
+      "methodCount": 1,
+      "maxMethodComplexity": 9
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: Inter, "Segoe UI", sans-serif;
+  color: #243c33;
+  background: #f5f3eb;
+  font-synthesis: none;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  height: 100dvh;
+}
+
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 32px;
+  border-bottom: 1px solid #d8ded3;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #68796c;
+}
+
+h1 {
+  margin: 5px 0 0;
+  font-size: 30px;
+  letter-spacing: -1.5px;
+}
+
+h1 span {
+  margin-left: 7px;
+  color: #b77532;
+  font-size: 17px;
+}
+
+.badge {
+  padding: 9px 15px;
+  border: 1px solid #b8c8b9;
+  border-radius: 30px;
+  font-size: 13px;
+}
+
+.workspace {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+}
+
+.scene {
+  position: relative;
+  min-height: 350px;
+  isolation: isolate;
+}
+
+.scene-hint {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #f5f3ebeb;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.panel {
+  padding: 28px 24px;
+  border-left: 1px solid #d8ded3;
+  overflow-y: auto;
+}
+
+.panel h2 {
+  margin: 15px 0 24px;
+  font-size: 25px;
+  overflow-wrap: anywhere;
+}
+
+.panel h3 {
+  margin-top: 28px;
+  font-size: 12px;
+}
+
+.panel p {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #68796c;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0;
+  border-bottom: 1px solid #d8ded3;
+  font-size: 14px;
+}
+
+.metric strong {
+  font-size: 20px;
+}
+
+.file-path {
+  overflow-wrap: anywhere;
+}
+
+.panel .legend {
+  margin-top: 36px;
+  font-size: 12px;
+}
+
+.building-label {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background: #243c33;
+  color: #fffaf0;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.message {
+  padding: 40px;
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding: 18px 20px;
+  }
+
+  .workspace {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .scene {
+    height: 60vh;
+    flex-shrink: 0;
+  }
+
+  .panel {
+    overflow-y: visible;
+    border-left: none;
+    border-top: 1px solid #d8ded3;
+  }
+}

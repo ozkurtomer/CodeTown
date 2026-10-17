@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "buildings": [
+    {
+      "name": "Player",
+      "filePath": "D:\\CorporateProjects\\CodeTown\\src\\CodeTown.Cli\\Player.cs",
+      "lineCount": 12,
+      "methodCount": 2
+    },
+    {
+      "name": "Program",
+      "filePath": "D:\\CorporateProjects\\CodeTown\\src\\CodeTown.Cli\\Program.cs",
+      "lineCount": 118,
+      "methodCount": 1
+    }
+  ]
+}
