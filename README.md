@@ -1,32 +1,40 @@
 # CodeTown
 
-**Kodunu şehre dönüştür.**
+[English](#english) · [Türkçe](#türkçe)
 
-CodeTown, C# sınıflarını etkileşimli bir 3D şehirde keşfetmeni sağlar. Her sınıf bir binaya dönüşür: binanın yüksekliği sınıfın satır sayısını, rengi ise en karmaşık metodunun yaklaşık karmaşıklığını gösterir. Böylece kod tabanındaki yoğun ve karmaşık bölgeleri yalnızca okumak yerine görerek keşfedebilirsin.
+---
 
-Proje iki parçadan oluşur:
+## English
 
-- **CodeTown.Cli** — C# dosyalarını Roslyn ile tarar, sınıf ölçümlerini JSON olarak üretir.
-- **Web uygulaması** — React ve Three.js ile bu verileri tarayıcıda gezilebilir bir 3D şehir olarak sunar.
+**Turn your code into a city.**
 
-## Özellikler
+CodeTown lets you explore C# classes as an interactive 3D city. Each class becomes a building: its height shows the number of lines, and its color shows the approximate complexity of its most complex method. Instead of only reading dense or complicated parts of a codebase, you can see where they are.
 
-- Tek bir C# dosyasını veya bir klasördeki C# dosyalarını tara.
-- Sınıf adını, satır sayısını, metot sayısını ve en yüksek metot karmaşıklığını çıkar.
-- Şehri sürükleyerek döndür, tekerlekle yakınlaştır ve binaları seç.
-- Seçilen sınıfın ölçümlerini ve kaynak dosya yolunu incele.
-- Karmaşıklık renkleriyle daha yakından incelenebilecek sınıfları hızlıca fark et.
+### Features
 
-## Hızlı başlangıç
+- Scan a single C# file or all C# files in a folder
+- Extract class name, line count, method count, and highest method complexity
+- Rotate and zoom the city, click buildings to inspect them
+- View a selected class's metrics and source file path
 
-### Gereksinimler
+### Reading the city
 
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
-- [Node.js ve npm](https://nodejs.org/)
+| Element | Meaning |
+|---|---|
+| Height | Line range of the class in its source file |
+| Method count | Number of methods defined directly in the class |
+| 🟢 Green | Highest method complexity 1–5 (low) |
+| 🟡 Yellow | 6–10 (medium) |
+| 🔴 Red | 11 and above (high) |
+| ⚪ Grey | No measurable methods |
 
-### Web uygulamasını çalıştır
+Complexity starts at 1 and increases with decision points such as `if`, loops, `catch`, conditional expressions, switch branches, and operators like `&&`, `||`, and `??`. It is an approximate metric and not a measure of overall code quality on its own.
 
-Depo kök dizininde:
+### Quick start
+
+**Requirements:** [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) and [Node.js](https://nodejs.org/)
+
+**1. Run the web app** (uses the included sample data)
 
 ```bash
 cd web
@@ -34,67 +42,124 @@ npm ci
 npm run dev
 ```
 
-Terminalde gösterilen yerel adresi tarayıcıda aç. Arayüz, şehir verisini `web/public/city.json` dosyasından yükler; depodaki örnek veriyle tarayıcıyı hemen açabilirsin.
+Open the local address shown in the terminal.
 
-### Kendi C# kodunu görselleştir
-
-Yeni bir terminalde depo kök dizinine dönüp CLI'ı çalıştır. Örneğin depodaki örnek C# projesini tara:
-
-```bash
-dotnet run --project src/CodeTown.Cli/CodeTown.Cli.csproj -- src/CodeTown.Cli web/public/city.json
-```
-
-Kendi projen için `src/CodeTown.Cli` yerine taramak istediğin dosya veya klasörün yolunu ver:
+**2. Visualize your own code** (run from the repository root)
 
 ```bash
 dotnet run --project src/CodeTown.Cli/CodeTown.Cli.csproj -- "C:/Projects/MyApp" web/public/city.json
 ```
 
-Son bağımsız değişken çıktı dosyasının yoludur. Atlanırsa sonuç, komutun çalıştırıldığı dizinde `city.json` adıyla oluşturulur. Web uygulamasının göstereceği veriyi güncellemek için çıktı yolunu `web/public/city.json` olarak ver; JSON üretildikten sonra tarayıcıyı yenile.
+The first argument is the file or folder to scan, and the second is the output JSON path. Write the output to `web/public/city.json` and refresh the browser to see your project. When scanning a folder, `bin`, `obj`, `.git`, and `node_modules` are skipped.
 
-Klasör taramasında `bin`, `obj`, `.git` ve `node_modules` dizinleri atlanır. Tek bir dosya verirsen yalnızca o dosya taranır.
+### Project structure
 
-## Ölçümler nasıl okunur?
-
-- **Yükseklik:** Sınıfın kaynak dosyadaki satır aralığı.
-- **Metot sayısı:** Sınıfa doğrudan tanımlanmış metotların sayısı.
-- **Renk:** Sınıftaki en yüksek metot karmaşıklığı.
-  - **Yeşil (1–5):** düşük
-  - **Sarı (6–10):** orta
-  - **Kırmızı (11+):** yüksek
-  - **Gri (0):** ölçülebilir metot yok
-
-Karmaşıklık değeri, 1 başlangıç değerine karar noktalarının eklenmesiyle hesaplanır. `if`, döngüler, `catch`, koşullu ifadeler, switch dalları ve `&&`, `||`, `??` gibi operatörler bu değeri artırır. Bu, kodu incelemeye yardımcı olan yaklaşık bir ölçümdür; tek başına kod kalitesinin göstergesi değildir.
-
-## Geliştirme
-
-Web uygulamasını depo kök dizininden derle ve lint kontrolünü çalıştır:
-
-```bash
-cd web
-npm run build
-npm run lint
+```
+CodeTown/
+├── src/CodeTown.Cli/   # Roslyn-based analyzer that produces JSON
+├── web/                # React + TypeScript + Three.js front end
+│   └── public/city.json
+└── CodeTown.sln
 ```
 
-.NET çözümünü depo kök dizininden derle:
+### Tech stack
+
+- **Analysis:** C#, .NET 9, Roslyn
+- **Front end:** React, TypeScript, Vite
+- **3D:** Three.js, React Three Fiber, Drei
+
+### Development
 
 ```bash
+cd web && npm run build && npm run lint
 dotnet build CodeTown.sln
 ```
 
-## Proje yapısı
+### Contributing
 
-```text
-CodeTown/
-├── src/CodeTown.Cli/       # C# analiz aracı ve JSON üretimi
-├── web/                    # React + TypeScript 3D arayüzü
-│   └── public/city.json    # Arayüzün kullandığı şehir verisi
-├── city.json               # CLI'ın varsayılan çıktı adı
-└── CodeTown.sln            # .NET çözümü
+Ideas, bug reports, and pull requests are welcome. For larger changes, please open an issue first.
+
+### License
+
+[MIT](LICENSE)
+
+---
+
+## Türkçe
+
+**Kodunu şehre dönüştür.**
+
+CodeTown, C# sınıflarını etkileşimli bir 3D şehirde keşfetmeni sağlar. Her sınıf bir binaya dönüşür: yükseklik sınıfın satır sayısını, renk ise en karmaşık metodunun yaklaşık karmaşıklığını gösterir. Kod tabanındaki yoğun ve karmaşık bölgeleri yalnızca okumak yerine görerek bulabilirsin.
+
+### Özellikler
+
+- Tek bir C# dosyasını ya da bir klasördeki tüm C# dosyalarını tara
+- Sınıf adı, satır sayısı, metot sayısı ve en yüksek metot karmaşıklığını çıkar
+- Şehri döndür, yakınlaştır ve binalara tıklayarak incele
+- Seçilen sınıfın ölçümlerini ve kaynak dosya yolunu gör
+
+### Şehir nasıl okunur?
+
+| Öğe | Anlamı |
+|---|---|
+| Yükseklik | Sınıfın kaynak dosyadaki satır aralığı |
+| Metot sayısı | Sınıfa doğrudan tanımlanmış metot sayısı |
+| 🟢 Yeşil | En yüksek karmaşıklık 1–5 (düşük) |
+| 🟡 Sarı | 6–10 (orta) |
+| 🔴 Kırmızı | 11 ve üzeri (yüksek) |
+| ⚪ Gri | Ölçülebilir metot yok |
+
+Karmaşıklık 1 başlangıç değeriyle hesaplanır ve `if`, döngüler, `catch`, koşullu ifadeler, switch dalları ile `&&`, `||`, `??` gibi operatörlerle artar. Bu yaklaşık bir ölçümdür; tek başına kod kalitesinin göstergesi değildir.
+
+### Hızlı başlangıç
+
+**Gereksinimler:** [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0) ve [Node.js](https://nodejs.org/)
+
+**1. Web uygulamasını çalıştır** (depodaki örnek veriyle açılır)
+
+```bash
+cd web
+npm ci
+npm run dev
 ```
 
-## Teknolojiler
+Terminalde görünen yerel adresi tarayıcıda aç.
 
-- **Analiz:** C#, .NET 9, [Roslyn](https://github.com/dotnet/roslyn)
+**2. Kendi kodunu görselleştir** (depo kök dizininden)
+
+```bash
+dotnet run --project src/CodeTown.Cli/CodeTown.Cli.csproj -- "C:/Projects/MyApp" web/public/city.json
+```
+
+İlk argüman taranacak dosya ya da klasör, ikincisi çıktı JSON dosyasının yolu. Çıktıyı `web/public/city.json` olarak verirsen tarayıcıyı yenilediğinde kendi projenin şehrini görürsün. Klasör taramasında `bin`, `obj`, `.git` ve `node_modules` dizinleri atlanır.
+
+### Proje yapısı
+
+```
+CodeTown/
+├── src/CodeTown.Cli/   # Roslyn ile analiz, JSON üretimi
+├── web/                # React + TypeScript + Three.js arayüzü
+│   └── public/city.json
+└── CodeTown.sln
+```
+
+### Teknolojiler
+
+- **Analiz:** C#, .NET 9, Roslyn
 - **Arayüz:** React, TypeScript, Vite
-- **3D şehir:** Three.js, React Three Fiber, Drei
+- **3D:** Three.js, React Three Fiber, Drei
+
+### Geliştirme
+
+```bash
+cd web && npm run build && npm run lint
+dotnet build CodeTown.sln
+```
+
+### Katkı
+
+Fikir, hata bildirimi ve pull request'lere açığım. Büyük bir değişiklikten önce lütfen bir issue aç.
+
+### Lisans
+
+[MIT](LICENSE)
